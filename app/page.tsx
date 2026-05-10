@@ -9,7 +9,41 @@ export default function Home() {
 
   async function login() {
 
-    alert("Frontend funcionando 🚀");
+    try {
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/login`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            email,
+            password
+          })
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.token) {
+
+        localStorage.setItem("token", data.token);
+
+        alert("Login realizado 🚀");
+
+      } else {
+
+        alert("Login inválido");
+
+      }
+
+    } catch (err) {
+
+      alert("Erro no servidor");
+
+    }
 
   }
 
@@ -46,4 +80,5 @@ export default function Home() {
 
     </main>
   );
+
 }
